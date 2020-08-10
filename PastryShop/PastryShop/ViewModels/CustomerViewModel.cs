@@ -1,4 +1,6 @@
-﻿using PastryShop.Service;
+﻿using PastryShop.Commands;
+using PastryShop.Models;
+using PastryShop.Service;
 using PastryShop.Views;
 using System;
 using System.Collections.Generic;
@@ -7,6 +9,8 @@ using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
 
 namespace PastryShop.ViewModels
 {
@@ -20,7 +24,7 @@ namespace PastryShop.ViewModels
             this.customer = customer;
             customerView = customerViewOpen;
             CakeList = new ObservableCollection<vwCake>(service.GetAllCake());
-            SetListCakeByType(isSuccess);
+            SetListCakeByType(isForChildren);
         }
         #endregion
 
@@ -39,6 +43,32 @@ namespace PastryShop.ViewModels
             }
         }
 
+        private CakeByOrder cakeByOrder = new CakeByOrder();
+        public CakeByOrder CakeByOrder
+        {
+            get
+            {
+                return cakeByOrder;
+            }
+            set
+            {
+                cakeByOrder = value;
+                OnPropertyChanged("CakeByOrder");
+            }
+        }
+        private vwCake selectedCake;
+        public vwCake SelectedCake
+        {
+            get
+            {
+                return selectedCake;
+            }
+            set
+            {
+                selectedCake = value;
+                OnPropertyChanged("SelectedCake");
+            }
+        }
         private ObservableCollection<vwCake> cakeList;
         public ObservableCollection<vwCake> CakeList
         {
@@ -67,22 +97,50 @@ namespace PastryShop.ViewModels
             }
         }
 
-        private bool isSuccess;
-        public bool IsSuccess
+        private ObservableCollection<CakeByOrder> temporaryCakeList = new ObservableCollection<CakeByOrder>();
+        public ObservableCollection<CakeByOrder> TemporaryCakeList
         {
             get
             {
-                return isSuccess;
+                return temporaryCakeList;
             }
             set
             {
-                isSuccess = value;
+                temporaryCakeList = value;
+                OnPropertyChanged("TemporaryCakeList");
+            }
+        }
+
+        private bool isForChildren;
+        public bool IsForChildren
+        {
+            get
+            {
+                return isForChildren;
+            }
+            set
+            {
+                isForChildren = value;
                 SetListCakeByType(value);
-                OnPropertyChanged("IsSuccess");
+                OnPropertyChanged("IsForChildren");
+            }
+        }     
+
+        private double totalPrice;
+        public double TotalPrice
+        {
+            get
+            {
+                return totalPrice;
+            }
+            set
+            {
+                totalPrice = value;
+                OnPropertyChanged("TotalPrice");
             }
         }
         #endregion
-
+        #region
         public void SetListCakeByType(bool isForChildren)
         {
             List<vwCake> cakeList = new List<vwCake>();
@@ -95,6 +153,43 @@ namespace PastryShop.ViewModels
             }
             CakeListByType = new ObservableCollection<vwCake>(cakeList);
         }
+        
+        private ICommand addCakeToOrderList;
+
+        public ICommand AddCakeToOrderList
+        {
+            get
+            {
+                if (addCakeToOrderList == null)
+                {
+                    addCakeToOrderList = new RelayCommand(param => AddCakeToOrderListExecute());
+                }
+                return addCakeToOrderList;
+            }
+        }
+
+        private void AddCakeToOrderListExecute()
+        {
+            CakeByOrder.CakeName = SelectedCake.Name;
+            CakeByOrder.CakePrice = SelectedCake.SellingPrice;
+            CakeByOrder.TotalPriceByCake = SelectedCake.SellingPrice * CakeByOrder.CakeQuantity;
+            try
+            {                
+                TemporaryCakeList.Add(cakeByOrder);
+                
+                foreach(CakeByOrder cake in TemporaryCakeList)
+                {
+                    TotalPrice = TotalPrice+ cake.TotalPriceByCake;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
 
     }
+
+    #endregion
 }
+

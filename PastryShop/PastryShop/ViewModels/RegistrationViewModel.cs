@@ -36,7 +36,7 @@ namespace PastryShop.ViewModels
             set
             {
                 customer = value;
-                OnPropertyChanged("Doctor");
+                OnPropertyChanged("Customer");
             }
         }
         #endregion

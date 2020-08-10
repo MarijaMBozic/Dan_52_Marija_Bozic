@@ -54,28 +54,28 @@
                 FontWeight="Bold" Margin="5,1,0,0" HorizontalAlignment="Left"/>
         <Label Grid.Column="11" Grid.Row="1" Name="lblName" Content="Customer :" Padding="0" HorizontalAlignment="Left"/>
         <Label Grid.Column="11" Grid.Row="1" Name="txtName" Content="{Binding Customer.FullName}" Padding="0" HorizontalAlignment="Right"/>
-        <RadioButton Grid.Column="1" Grid.Row="3" IsChecked="{Binding IsSuccess, Converter={StaticResource RadioToBoolConverter}, ConverterParameter='true'}" Content="For children" />
-        <RadioButton Grid.Column="1" Grid.Row="5" IsChecked="{Binding IsSuccess, Converter={StaticResource RadioToBoolConverter}, ConverterParameter='false'}" Content="For adults" />
+        <RadioButton Grid.Column="1" Grid.Row="3" IsChecked="{Binding IsForChildren, Converter={StaticResource RadioToBoolConverter}, ConverterParameter='true'}" Content="For children" />
+        <RadioButton Grid.Column="1" Grid.Row="5" IsChecked="{Binding IsForChildren, Converter={StaticResource RadioToBoolConverter}, ConverterParameter='false'}" Content="For adults" />
         <ComboBox Grid.Column="1" Grid.Row="7" Name="cmbLisOfCake" Height="20" Width="150" DisplayMemberPath="Name" IsEditable="True" Text="Select Cake"
                   ItemsSource="{Binding CakeListByType, UpdateSourceTrigger=PropertyChanged}"                 
                   SelectedItem="{Binding SelectedCake, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="lblQuantity" Content="Quantity" Padding="0" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="txtQuantity" Height="20" Width="70" HorizontalAlignment="Right"
-                Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                Text="{Binding CakeByOrder.CakeQuantity, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="2" Name="lblComment" Content="Comment" Padding="0" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="5" Name="txtComment" Height="100" Width="150" HorizontalAlignment="Left"
-                 Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding CakeByOrder.CakeComment, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Column="1" Grid.Row="18" Name="btnAddToList" Content="Add cake to order" IsEnabled="True" Height="20" 
                 Width="100" HorizontalAlignment="Center" Command="{Binding AddCakeToOrderList, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Content="Your order" HorizontalContentAlignment="Center"/>
-        <DataGrid Grid.Column="5" Grid.Row="3" Name="DataGridResults" ItemsSource="{Binding RequestList, UpdateSourceTrigger=PropertyChanged}"
+        <DataGrid Grid.Column="5" Grid.Row="3" Name="DataGridResults" ItemsSource="{Binding TemporaryCakeList, UpdateSourceTrigger=PropertyChanged}"
               Grid.ColumnSpan="3"
-                      SelectedItem="{Binding SelectedRequest, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" HeadersVisibility="Column"
+                       IsReadOnly="True" HeadersVisibility="Column"
                       AutoGenerateColumns="False" HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black" FontWeight="Bold">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Cake" Binding="{Binding Date}" Width="100"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding Reason}" Width="100"/>
-                <DataGridTextColumn Header="Quantity" Binding="{Binding IsApproved}" Width="100"/>
+                <DataGridTextColumn Header="Cake" Binding="{Binding CakeName}" Width="100"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding CakePrice}" Width="100"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding CakeQuantity}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
         <Label Grid.Column="9" Grid.Row="15"  Name="lblTotalPrice" Content="Total Price" Padding="0" HorizontalAlignment="Left"/>
