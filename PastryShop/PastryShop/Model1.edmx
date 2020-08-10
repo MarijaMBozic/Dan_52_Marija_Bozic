@@ -1,0 +1,527 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PastryShopModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cake">
+          <Key>
+            <PropertyRef Name="CakeId" />
+          </Key>
+          <Property Name="CakeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsForChildren" Type="bit" Nullable="false" />
+          <Property Name="PurchasePrice" Type="float" Nullable="false" />
+          <Property Name="SellingPrice" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NumberOfOrders" Type="int" />
+        </EntityType>
+        <EntityType Name="ListOfCakeInOrder">
+          <Key>
+            <PropertyRef Name="ListOfCakeInOrderId" />
+          </Key>
+          <Property Name="ListOfCakeInOrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="CakeId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TotalPrice" Type="float" Nullable="false" />
+          <Property Name="NumberOfCakes" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PastryShop.dbo.vwCake' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwCake">
+          <Key>
+            <PropertyRef Name="CakeId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsForChildren" />
+            <PropertyRef Name="PurchasePrice" />
+            <PropertyRef Name="SellingPrice" />
+          </Key>
+          <Property Name="CakeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="IsForChildren" Type="bit" Nullable="false" />
+          <Property Name="PurchasePrice" Type="float" Nullable="false" />
+          <Property Name="SellingPrice" Type="float" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PastryShop.dbo.vwCustomer' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwCustomer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="PhoneNumber" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Password" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Username" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NumberOfOrders" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PastryShop.dbo.vwOrder' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwOrder">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="TotalPrice" />
+            <PropertyRef Name="NumberOfCakes" />
+            <PropertyRef Name="Comment" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TotalPrice" Type="float" Nullable="false" />
+          <Property Name="NumberOfCakes" Type="int" Nullable="false" />
+          <Property Name="Comment" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PastryShop.dbo.vwOrderDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwOrderDetails">
+          <Key>
+            <PropertyRef Name="ListOfCakeInOrderId" />
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="CakeId" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="TotalPrice" />
+            <PropertyRef Name="NumberOfCakes" />
+            <PropertyRef Name="Expr2" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="ListOfCakeInOrderId" Type="int" Nullable="false" />
+          <Property Name="OrderId" Type="int" Nullable="false" />
+          <Property Name="CakeId" Type="int" Nullable="false" />
+          <Property Name="Expr1" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="TotalPrice" Type="float" Nullable="false" />
+          <Property Name="NumberOfCakes" Type="int" Nullable="false" />
+          <Property Name="Expr2" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__ListOfCak__CakeI__2D27B809">
+          <End Role="Cake" Type="Self.Cake" Multiplicity="1" />
+          <End Role="ListOfCakeInOrder" Type="Self.ListOfCakeInOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cake">
+              <PropertyRef Name="CakeId" />
+            </Principal>
+            <Dependent Role="ListOfCakeInOrder">
+              <PropertyRef Name="CakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ListOfCak__Order__2C3393D0">
+          <End Role="Orders" Type="Self.Orders" Multiplicity="1" />
+          <End Role="ListOfCakeInOrder" Type="Self.ListOfCakeInOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="ListOfCakeInOrder">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Customer__29572725">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PastryShopModelStoreContainer">
+          <EntitySet Name="Cake" EntityType="Self.Cake" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListOfCakeInOrder" EntityType="Self.ListOfCakeInOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwCake" EntityType="Self.vwCake" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwCake].[CakeId] AS [CakeId], 
+    [vwCake].[Name] AS [Name], 
+    [vwCake].[IsForChildren] AS [IsForChildren], 
+    [vwCake].[PurchasePrice] AS [PurchasePrice], 
+    [vwCake].[SellingPrice] AS [SellingPrice]
+    FROM [dbo].[vwCake] AS [vwCake]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwCustomer" EntityType="Self.vwCustomer" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwCustomer].[CustomerId] AS [CustomerId], 
+    [vwCustomer].[FullName] AS [FullName], 
+    [vwCustomer].[Address] AS [Address], 
+    [vwCustomer].[PhoneNumber] AS [PhoneNumber], 
+    [vwCustomer].[Username] AS [Username], 
+    [vwCustomer].[Password] AS [Password], 
+    [vwCustomer].[NumberOfOrders] AS [NumberOfOrders]
+    FROM [dbo].[vwCustomer] AS [vwCustomer]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwOrder" EntityType="Self.vwOrder" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwOrder].[OrderId] AS [OrderId], 
+    [vwOrder].[Date] AS [Date], 
+    [vwOrder].[TotalPrice] AS [TotalPrice], 
+    [vwOrder].[NumberOfCakes] AS [NumberOfCakes], 
+    [vwOrder].[Comment] AS [Comment], 
+    [vwOrder].[CustomerId] AS [CustomerId]
+    FROM [dbo].[vwOrder] AS [vwOrder]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwOrderDetails" EntityType="Self.vwOrderDetails" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwOrderDetails].[ListOfCakeInOrderId] AS [ListOfCakeInOrderId], 
+    [vwOrderDetails].[OrderId] AS [OrderId], 
+    [vwOrderDetails].[CakeId] AS [CakeId], 
+    [vwOrderDetails].[Expr1] AS [Expr1], 
+    [vwOrderDetails].[Date] AS [Date], 
+    [vwOrderDetails].[TotalPrice] AS [TotalPrice], 
+    [vwOrderDetails].[NumberOfCakes] AS [NumberOfCakes], 
+    [vwOrderDetails].[Expr2] AS [Expr2], 
+    [vwOrderDetails].[CustomerId] AS [CustomerId]
+    FROM [dbo].[vwOrderDetails] AS [vwOrderDetails]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__ListOfCak__CakeI__2D27B809" Association="Self.FK__ListOfCak__CakeI__2D27B809">
+            <End Role="Cake" EntitySet="Cake" />
+            <End Role="ListOfCakeInOrder" EntitySet="ListOfCakeInOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ListOfCak__Order__2C3393D0" Association="Self.FK__ListOfCak__Order__2C3393D0">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="ListOfCakeInOrder" EntitySet="ListOfCakeInOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Customer__29572725" Association="Self.FK__Orders__Customer__29572725">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PastryShopModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cake">
+          <Key>
+            <PropertyRef Name="CakeId" />
+          </Key>
+          <Property Name="CakeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsForChildren" Type="Boolean" Nullable="false" />
+          <Property Name="PurchasePrice" Type="Double" Nullable="false" />
+          <Property Name="SellingPrice" Type="Double" Nullable="false" />
+          <NavigationProperty Name="ListOfCakeInOrders" Relationship="Self.FK__ListOfCak__CakeI__2D27B809" FromRole="Cake" ToRole="ListOfCakeInOrder" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumberOfOrders" Type="Int32" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK__Orders__Customer__29572725" FromRole="Customer" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="ListOfCakeInOrder">
+          <Key>
+            <PropertyRef Name="ListOfCakeInOrderId" />
+          </Key>
+          <Property Name="ListOfCakeInOrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="CakeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cake" Relationship="Self.FK__ListOfCak__CakeI__2D27B809" FromRole="ListOfCakeInOrder" ToRole="Cake" />
+          <NavigationProperty Name="Order" Relationship="Self.FK__ListOfCak__Order__2C3393D0" FromRole="ListOfCakeInOrder" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalPrice" Type="Double" Nullable="false" />
+          <Property Name="NumberOfCakes" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK__Orders__Customer__29572725" FromRole="Orders" ToRole="Customer" />
+          <NavigationProperty Name="ListOfCakeInOrders" Relationship="Self.FK__ListOfCak__Order__2C3393D0" FromRole="Orders" ToRole="ListOfCakeInOrder" />
+        </EntityType>
+        <EntityType Name="vwCake">
+          <Key>
+            <PropertyRef Name="CakeId" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="IsForChildren" />
+            <PropertyRef Name="PurchasePrice" />
+            <PropertyRef Name="SellingPrice" />
+          </Key>
+          <Property Name="CakeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsForChildren" Type="Boolean" Nullable="false" />
+          <Property Name="PurchasePrice" Type="Double" Nullable="false" />
+          <Property Name="SellingPrice" Type="Double" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vwCustomer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="FullName" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="PhoneNumber" />
+            <PropertyRef Name="Username" />
+            <PropertyRef Name="Password" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NumberOfOrders" Type="Int32" />
+        </EntityType>
+        <EntityType Name="vwOrder">
+          <Key>
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="TotalPrice" />
+            <PropertyRef Name="NumberOfCakes" />
+            <PropertyRef Name="Comment" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalPrice" Type="Double" Nullable="false" />
+          <Property Name="NumberOfCakes" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vwOrderDetail">
+          <Key>
+            <PropertyRef Name="ListOfCakeInOrderId" />
+            <PropertyRef Name="OrderId" />
+            <PropertyRef Name="CakeId" />
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="TotalPrice" />
+            <PropertyRef Name="NumberOfCakes" />
+            <PropertyRef Name="Expr2" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="ListOfCakeInOrderId" Type="Int32" Nullable="false" />
+          <Property Name="OrderId" Type="Int32" Nullable="false" />
+          <Property Name="CakeId" Type="Int32" Nullable="false" />
+          <Property Name="Expr1" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="TotalPrice" Type="Double" Nullable="false" />
+          <Property Name="NumberOfCakes" Type="Int32" Nullable="false" />
+          <Property Name="Expr2" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__ListOfCak__CakeI__2D27B809">
+          <End Role="Cake" Type="Self.Cake" Multiplicity="1" />
+          <End Role="ListOfCakeInOrder" Type="Self.ListOfCakeInOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cake">
+              <PropertyRef Name="CakeId" />
+            </Principal>
+            <Dependent Role="ListOfCakeInOrder">
+              <PropertyRef Name="CakeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Orders__Customer__29572725">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerId" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ListOfCak__Order__2C3393D0">
+          <End Role="Orders" Type="Self.Order" Multiplicity="1" />
+          <End Role="ListOfCakeInOrder" Type="Self.ListOfCakeInOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orders">
+              <PropertyRef Name="OrderId" />
+            </Principal>
+            <Dependent Role="ListOfCakeInOrder">
+              <PropertyRef Name="OrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PastryShopEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cakes" EntityType="Self.Cake" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="ListOfCakeInOrders" EntityType="Self.ListOfCakeInOrder" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
+          <EntitySet Name="vwCakes" EntityType="Self.vwCake" />
+          <EntitySet Name="vwCustomers" EntityType="Self.vwCustomer" />
+          <EntitySet Name="vwOrders" EntityType="Self.vwOrder" />
+          <EntitySet Name="vwOrderDetails" EntityType="Self.vwOrderDetail" />
+          <AssociationSet Name="FK__ListOfCak__CakeI__2D27B809" Association="Self.FK__ListOfCak__CakeI__2D27B809">
+            <End Role="Cake" EntitySet="Cakes" />
+            <End Role="ListOfCakeInOrder" EntitySet="ListOfCakeInOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Orders__Customer__29572725" Association="Self.FK__Orders__Customer__29572725">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ListOfCak__Order__2C3393D0" Association="Self.FK__ListOfCak__Order__2C3393D0">
+            <End Role="Orders" EntitySet="Orders" />
+            <End Role="ListOfCakeInOrder" EntitySet="ListOfCakeInOrders" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PastryShopModelStoreContainer" CdmEntityContainer="PastryShopEntities1">
+          <EntitySetMapping Name="Cakes">
+            <EntityTypeMapping TypeName="PastryShopModel.Cake">
+              <MappingFragment StoreEntitySet="Cake">
+                <ScalarProperty Name="CakeId" ColumnName="CakeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsForChildren" ColumnName="IsForChildren" />
+                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+                <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="PastryShopModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="NumberOfOrders" ColumnName="NumberOfOrders" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListOfCakeInOrders">
+            <EntityTypeMapping TypeName="PastryShopModel.ListOfCakeInOrder">
+              <MappingFragment StoreEntitySet="ListOfCakeInOrder">
+                <ScalarProperty Name="ListOfCakeInOrderId" ColumnName="ListOfCakeInOrderId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="CakeId" ColumnName="CakeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="PastryShopModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="NumberOfCakes" ColumnName="NumberOfCakes" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwCakes">
+            <EntityTypeMapping TypeName="PastryShopModel.vwCake">
+              <MappingFragment StoreEntitySet="vwCake">
+                <ScalarProperty Name="CakeId" ColumnName="CakeId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsForChildren" ColumnName="IsForChildren" />
+                <ScalarProperty Name="PurchasePrice" ColumnName="PurchasePrice" />
+                <ScalarProperty Name="SellingPrice" ColumnName="SellingPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwCustomers">
+            <EntityTypeMapping TypeName="PastryShopModel.vwCustomer">
+              <MappingFragment StoreEntitySet="vwCustomer">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="NumberOfOrders" ColumnName="NumberOfOrders" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwOrders">
+            <EntityTypeMapping TypeName="PastryShopModel.vwOrder">
+              <MappingFragment StoreEntitySet="vwOrder">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="NumberOfCakes" ColumnName="NumberOfCakes" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwOrderDetails">
+            <EntityTypeMapping TypeName="PastryShopModel.vwOrderDetail">
+              <MappingFragment StoreEntitySet="vwOrderDetails">
+                <ScalarProperty Name="ListOfCakeInOrderId" ColumnName="ListOfCakeInOrderId" />
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="CakeId" ColumnName="CakeId" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="NumberOfCakes" ColumnName="NumberOfCakes" />
+                <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
