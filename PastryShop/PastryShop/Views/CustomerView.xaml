@@ -61,10 +61,10 @@
                   SelectedItem="{Binding SelectedCake, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="lblQuantity" Content="Quantity" Padding="0" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="txtQuantity" Height="20" Width="70" HorizontalAlignment="Right"
-                Text="{Binding CakeByOrder.CakeQuantity, UpdateSourceTrigger=PropertyChanged}"/>
+                Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="2" Name="lblComment" Content="Comment" Padding="0" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="5" Name="txtComment" Height="100" Width="150" HorizontalAlignment="Left"
-                 Text="{Binding CakeByOrder.CakeComment, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"/>
         <Button Grid.Column="1" Grid.Row="18" Name="btnAddToList" Content="Add cake to order" IsEnabled="True" Height="20" 
                 Width="100" HorizontalAlignment="Center" Command="{Binding AddCakeToOrderList, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Content="Your order" HorizontalContentAlignment="Center"/>
@@ -82,6 +82,6 @@
         <Label Grid.Column="11" Grid.Row="15"   Name="txtTotalPrice" Height="25" Width="100" HorizontalAlignment="Left"
                  Content="{Binding TotalPrice}"/>
         <Button Grid.Column="9" Grid.Row="18" Grid.ColumnSpan="3" Name="btnSaveOrder" Content="Submit order" IsEnabled="true" Height="20" 
-                Width="200" HorizontalAlignment="Center" Command="{Binding SaveRequest, UpdateSourceTrigger=PropertyChanged}"/>
+                Width="200" HorizontalAlignment="Center" Command="{Binding SaveOrder, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

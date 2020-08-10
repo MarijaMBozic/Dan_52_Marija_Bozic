@@ -71,7 +71,9 @@
     <Compile Include="Customer.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\CreateOrderFileTxt.cs" />
     <Compile Include="Helpers\HashPasswordHelper.cs" />
+    <Compile Include="Helpers\ConvertString.cs" />
     <Compile Include="ListOfCakeInOrder.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>

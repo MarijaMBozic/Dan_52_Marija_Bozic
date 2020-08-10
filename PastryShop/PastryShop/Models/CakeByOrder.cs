@@ -9,6 +9,7 @@ namespace PastryShop.Models
 {
     public class CakeByOrder
     {
+        public int  CakeId { get; set; }
         public string CakeName { get; set; }
         public double CakePrice { get; set; }
         public int CakeQuantity { get; set; }

@@ -1,4 +1,5 @@
 ﻿using PastryShop.Commands;
+using PastryShop.Helpers;
 using PastryShop.Models;
 using PastryShop.Service;
 using PastryShop.Views;
@@ -18,6 +19,7 @@ namespace PastryShop.ViewModels
     {
         ServiceCode service = new ServiceCode();
         CustomerView customerView;
+
         #region Constructore
         public CustomerViewModel(Customer customer, CustomerView customerViewOpen)
         {
@@ -42,20 +44,7 @@ namespace PastryShop.ViewModels
                 OnPropertyChanged("Customer");
             }
         }
-
-        private CakeByOrder cakeByOrder = new CakeByOrder();
-        public CakeByOrder CakeByOrder
-        {
-            get
-            {
-                return cakeByOrder;
-            }
-            set
-            {
-                cakeByOrder = value;
-                OnPropertyChanged("CakeByOrder");
-            }
-        }
+        
         private vwCake selectedCake;
         public vwCake SelectedCake
         {
@@ -69,6 +58,7 @@ namespace PastryShop.ViewModels
                 OnPropertyChanged("SelectedCake");
             }
         }
+
         private ObservableCollection<vwCake> cakeList;
         public ObservableCollection<vwCake> CakeList
         {
@@ -124,7 +114,35 @@ namespace PastryShop.ViewModels
                 SetListCakeByType(value);
                 OnPropertyChanged("IsForChildren");
             }
-        }     
+        }
+
+        private int quantity;
+        public int Quantity
+        {
+            get
+            {
+                return quantity;
+            }
+            set
+            {
+                quantity = value;                
+                OnPropertyChanged("Quantity");
+            }
+        }
+
+        private string comment;
+        public string Comment
+        {
+            get
+            {
+                return comment;
+            }
+            set
+            {
+                comment = value;
+                OnPropertyChanged("Comment");
+            }
+        }
 
         private double totalPrice;
         public double TotalPrice
@@ -140,7 +158,8 @@ namespace PastryShop.ViewModels
             }
         }
         #endregion
-        #region
+
+        #region Command
         public void SetListCakeByType(bool isForChildren)
         {
             List<vwCake> cakeList = new List<vwCake>();
@@ -170,16 +189,21 @@ namespace PastryShop.ViewModels
 
         private void AddCakeToOrderListExecute()
         {
-            CakeByOrder.CakeName = SelectedCake.Name;
-            CakeByOrder.CakePrice = SelectedCake.SellingPrice;
-            CakeByOrder.TotalPriceByCake = SelectedCake.SellingPrice * CakeByOrder.CakeQuantity;
+            CakeByOrder cake = new CakeByOrder();
+            cake.CakeName = SelectedCake.Name;
+            cake.CakePrice = SelectedCake.SellingPrice;            
+            cake.TotalPriceByCake = SelectedCake.SellingPrice * Quantity;
+            cake.CakeId = SelectedCake.CakeId;
+            cake.CakeQuantity = Quantity;
+            cake.CakeComment =Comment;
+            
             try
             {                
-                TemporaryCakeList.Add(cakeByOrder);
+                TemporaryCakeList.Add(cake);
                 
-                foreach(CakeByOrder cake in TemporaryCakeList)
+                foreach(CakeByOrder c in TemporaryCakeList)
                 {
-                    TotalPrice = TotalPrice+ cake.TotalPriceByCake;
+                    TotalPrice = TotalPrice+ c.TotalPriceByCake;
                 }
             }
             catch (Exception ex)
@@ -188,8 +212,57 @@ namespace PastryShop.ViewModels
             }
         }
 
-    }
+        private ICommand saveOrder;
 
-    #endregion
+        public ICommand SaveOrder
+        {
+            get
+            {
+                if (saveOrder == null)
+                {
+                    saveOrder = new RelayCommand(param => SaveOrderExecute());
+                }
+                return saveOrder;
+            }
+        }
+
+        private void SaveOrderExecute()
+        {
+            Order newOrder = new Order();
+
+            newOrder.Date = DateTime.Now;
+            newOrder.TotalPrice = TotalPrice;
+            newOrder.CustomerId = customer.CustomerId;
+
+            foreach(CakeByOrder cake in TemporaryCakeList)
+            {
+                newOrder.NumberOfCakes = newOrder.NumberOfCakes + cake.CakeQuantity;
+                newOrder.Comment = newOrder.Comment +" "+ cake.CakeComment;                
+            }
+            try
+            {
+                int orderNumber= service.AddOrder(newOrder);
+                
+                if(orderNumber != 0)
+                {
+                    ListOfCakeInOrder listOfCakeInOrders = new ListOfCakeInOrder();
+                    listOfCakeInOrders.OrderId = orderNumber;
+                    foreach(var cake in TemporaryCakeList)
+                    {
+                        listOfCakeInOrders.CakeId = cake.CakeId;
+                        service.AddCakeInOrderList(listOfCakeInOrders);
+                    }
+
+                    CreateOrderFileTxt.CreateOrder(Customer.FullName, orderNumber, newOrder.Comment);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        #endregion
+    }
 }
 
