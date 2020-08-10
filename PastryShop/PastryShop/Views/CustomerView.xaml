@@ -54,10 +54,10 @@
                 FontWeight="Bold" Margin="5,1,0,0" HorizontalAlignment="Left"/>
         <Label Grid.Column="11" Grid.Row="1" Name="lblName" Content="Customer :" Padding="0" HorizontalAlignment="Left"/>
         <Label Grid.Column="11" Grid.Row="1" Name="txtName" Content="{Binding Customer.FullName}" Padding="0" HorizontalAlignment="Right"/>
-        <RadioButton Grid.Column="1" Grid.Row="3" IsChecked="{Binding Path=IsSuccess, Converter={StaticResource RadioToBoolConverter}, ConverterParameter=1}" Content="For children" />
-        <RadioButton Grid.Column="1" Grid.Row="5" IsChecked="{Binding Path=IsSuccess, Converter={StaticResource RadioToBoolConverter}, ConverterParameter=2}" Content="For adults" />
+        <RadioButton Grid.Column="1" Grid.Row="3" IsChecked="{Binding IsSuccess, Converter={StaticResource RadioToBoolConverter}, ConverterParameter='true'}" Content="For children" />
+        <RadioButton Grid.Column="1" Grid.Row="5" IsChecked="{Binding IsSuccess, Converter={StaticResource RadioToBoolConverter}, ConverterParameter='false'}" Content="For adults" />
         <ComboBox Grid.Column="1" Grid.Row="7" Name="cmbLisOfCake" Height="20" Width="150" DisplayMemberPath="Name" IsEditable="True" Text="Select Cake"
-                  ItemsSource="{Binding CakeList, UpdateSourceTrigger=PropertyChanged}"                 
+                  ItemsSource="{Binding CakeListByType, UpdateSourceTrigger=PropertyChanged}"                 
                   SelectedItem="{Binding SelectedCake, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="lblQuantity" Content="Quantity" Padding="0" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="txtQuantity" Height="20" Width="70" HorizontalAlignment="Right"

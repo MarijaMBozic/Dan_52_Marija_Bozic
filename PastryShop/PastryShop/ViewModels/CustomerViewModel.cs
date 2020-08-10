@@ -3,6 +3,7 @@ using PastryShop.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace PastryShop.ViewModels
             this.customer = customer;
             customerView = customerViewOpen;
             CakeList = new ObservableCollection<vwCake>(service.GetAllCake());
+            SetListCakeByType(isSuccess);
         }
         #endregion
 
@@ -56,12 +58,12 @@ namespace PastryShop.ViewModels
         {
             get
             {
-                return cakeList;
+                return cakeListByType;
             }
             set
             {
-                cakeList = value;
-                OnPropertyChanged("CakeList");
+                cakeListByType = value;
+                OnPropertyChanged("CakeListByType");
             }
         }
 
@@ -75,9 +77,24 @@ namespace PastryShop.ViewModels
             set
             {
                 isSuccess = value;
+                SetListCakeByType(value);
                 OnPropertyChanged("IsSuccess");
             }
         }
         #endregion
+
+        public void SetListCakeByType(bool isForChildren)
+        {
+            List<vwCake> cakeList = new List<vwCake>();
+            foreach (vwCake cake in CakeList)
+            {
+                if(cake.IsForChildren== isForChildren)
+                {
+                    cakeList.Add(cake);
+                }
+            }
+            CakeListByType = new ObservableCollection<vwCake>(cakeList);
+        }
+
     }
 }

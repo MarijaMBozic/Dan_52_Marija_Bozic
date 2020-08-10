@@ -12,20 +12,20 @@ namespace PastryShop.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if(value is int)
-            {
-                int integer = (int)value;
-                if (integer == int.Parse(parameter.ToString()))
-                {
-                    return true;
-                }                               
-            }          
-             return false;          
+            bool original = (bool)value;
+            if (parameter is string)
+                return !(original ^ Boolean.Parse(parameter as string));
+            else
+                throw new NotImplementedException();
+
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return parameter;
+            if (parameter is string)
+                return Boolean.Parse(parameter as string);
+            else
+                throw new NotImplementedException();
         }
     }
 }
