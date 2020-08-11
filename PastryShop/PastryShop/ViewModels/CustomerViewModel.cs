@@ -26,7 +26,9 @@ namespace PastryShop.ViewModels
             this.customer = customer;
             customerView = customerViewOpen;
             CakeList = new ObservableCollection<vwCake>(service.GetAllCake());
+            OrderList = new ObservableCollection<vwOrderDetail>(service.GetAllOrders(Customer.CustomerId));
             SetListCakeByType(isForChildren);
+            SetOrderListDetails();
         }
         #endregion
 
@@ -56,6 +58,20 @@ namespace PastryShop.ViewModels
             {
                 selectedCake = value;
                 OnPropertyChanged("SelectedCake");
+            }
+        }
+
+        private ObservableCollection<vwOrderDetail> orderList;
+        public ObservableCollection<vwOrderDetail> OrderList
+        {
+            get
+            {
+                return orderList;
+            }
+            set
+            {
+                orderList = value;
+                OnPropertyChanged("OrderList");
             }
         }
 
@@ -98,6 +114,20 @@ namespace PastryShop.ViewModels
             {
                 temporaryCakeList = value;
                 OnPropertyChanged("TemporaryCakeList");
+            }
+        }
+
+        private ObservableCollection<OrderListDetails> orderListForTable = new ObservableCollection<OrderListDetails>();
+        public ObservableCollection<OrderListDetails> OrderListForTable
+        {
+            get
+            {
+                return orderListForTable;
+            }
+            set
+            {
+                orderListForTable = value;                
+                OnPropertyChanged("OrderListForTable");
             }
         }
 
@@ -220,7 +250,7 @@ namespace PastryShop.ViewModels
             {
                 if (saveOrder == null)
                 {
-                    saveOrder = new RelayCommand(param => SaveOrderExecute());
+                    saveOrder = new RelayCommand(param => SaveOrderExecute(), param=> CanSaveOrderExecute());
                 }
                 return saveOrder;
             }
@@ -242,8 +272,8 @@ namespace PastryShop.ViewModels
             try
             {
                 int orderNumber= service.AddOrder(newOrder);
-                
-                if(orderNumber != 0)
+                SetOrderListDetails();
+                if (orderNumber != 0)
                 {
                     ListOfCakeInOrder listOfCakeInOrders = new ListOfCakeInOrder();
                     listOfCakeInOrders.OrderId = orderNumber;
@@ -252,7 +282,6 @@ namespace PastryShop.ViewModels
                         listOfCakeInOrders.CakeId = cake.CakeId;
                         service.AddCakeInOrderList(listOfCakeInOrders);
                     }
-
                     CreateOrderFileTxt.CreateOrder(Customer.FullName, orderNumber, newOrder.Comment);
                 }
             }
@@ -260,6 +289,62 @@ namespace PastryShop.ViewModels
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private bool CanSaveOrderExecute()
+        {
+            if(TemporaryCakeList.Count>0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public void SetOrderListDetails()
+        {            
+            foreach(vwOrderDetail order in OrderList)
+            {
+                OrderListDetails list = new OrderListDetails();
+                list.Date = order.Date;
+                list.TotalPrice = order.TotalPrice;
+                list.NumberOfcaker =order.NumberOfCakes ;
+                list.ListOfCake = service.GetAllCakeByOrder(order.OrderId);
+                list.Comment = service.GetAllCommentByOrder(order.OrderId);
+                OrderListForTable.Add(list);
+            }            
+        }
+
+        private ICommand logOut;
+
+        public ICommand LogOut
+        {
+            get
+            {
+                if (logOut == null)
+                {
+                    logOut = new RelayCommand(param => LogOutExecute(), param => CanLogOutExecute());
+                }
+                return logOut;
+            }
+        }
+
+        public void LogOutExecute()
+        {
+            try
+            {
+                MainWindow main = new MainWindow();
+                main.Show();
+                customerView.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
+        private bool CanLogOutExecute()
+        {
+            return true;
         }
 
         #endregion

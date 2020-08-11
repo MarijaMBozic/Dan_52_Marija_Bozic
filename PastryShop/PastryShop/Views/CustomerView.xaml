@@ -12,76 +12,114 @@
             <converters:RadioToBoolConverter x:Key="RadioToBoolConverter" />
         </ResourceDictionary>
     </Window.Resources>
-    <Grid>
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition Width="6"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="6"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="6"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="40"/>
             <ColumnDefinition Width="6"/>
-            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="6"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="6"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="6"/>
+            <RowDefinition Height="30"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         <Button Grid.Column="12" Grid.Row="1" Name="btnLogOut" Content="LogOut" Width="70" Height="20"
                 Command="{Binding LogOut, UpdateSourceTrigger=PropertyChanged}"
                 FontWeight="Bold" Margin="5,1,0,0" HorizontalAlignment="Left"/>
-        <Label Grid.Column="11" Grid.Row="1" Name="lblName" Content="Customer :" Padding="0" HorizontalAlignment="Left"/>
-        <Label Grid.Column="11" Grid.Row="1" Name="txtName" Content="{Binding Customer.FullName}" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="11" Grid.Row="1" Width="100" Name="lblName" Content="Customer:" Padding="0" HorizontalAlignment="Left"/>
+        <Label Grid.Column="11" Grid.Row="1" Name="txtName" Content="{Binding Customer.FullName}" Padding="0" HorizontalAlignment="Center" />
         <RadioButton Grid.Column="1" Grid.Row="3" IsChecked="{Binding IsForChildren, Converter={StaticResource RadioToBoolConverter}, ConverterParameter='true'}" Content="For children" />
         <RadioButton Grid.Column="1" Grid.Row="5" IsChecked="{Binding IsForChildren, Converter={StaticResource RadioToBoolConverter}, ConverterParameter='false'}" Content="For adults" />
         <ComboBox Grid.Column="1" Grid.Row="7" Name="cmbLisOfCake" Height="20" Width="150" DisplayMemberPath="Name" IsEditable="True" Text="Select Cake"
                   ItemsSource="{Binding CakeListByType, UpdateSourceTrigger=PropertyChanged}"                 
-                  SelectedItem="{Binding SelectedCake, UpdateSourceTrigger=PropertyChanged}"/>
+                  SelectedItem="{Binding SelectedCake, UpdateSourceTrigger=PropertyChanged}"
+                  SelectionChanged="cmbLisOfCake_SelectionChanged"/>
         <Label Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="lblQuantity" Content="Quantity" Padding="0" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Name="txtQuantity" Height="20" Width="70" HorizontalAlignment="Right"
-                Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"/>
+                Text="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}"
+                 TextChanged="txtQuantity_TextChanged"/>
         <Label Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="2" Name="lblComment" Content="Comment" Padding="0" HorizontalAlignment="Left"/>
         <TextBox Grid.Column="1" Grid.Row="13" Grid.ColumnSpan="2" Grid.RowSpan="5" Name="txtComment" Height="100" Width="150" HorizontalAlignment="Left"
+                 TextChanged="txtComment_TextChanged"
                  Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Grid.Column="1" Grid.Row="18" Name="btnAddToList" Content="Add cake to order" IsEnabled="True" Height="20" 
+        <Button Grid.Column="1" Grid.Row="19" Name="btnAddToList" Content="Add cake to order" IsEnabled="False" Height="20" 
                 Width="100" HorizontalAlignment="Center" Command="{Binding AddCakeToOrderList, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Content="Your order" HorizontalContentAlignment="Center"/>
-        <DataGrid Grid.Column="5" Grid.Row="3" Name="DataGridResults" ItemsSource="{Binding TemporaryCakeList, UpdateSourceTrigger=PropertyChanged}"
-              Grid.ColumnSpan="3"
-                       IsReadOnly="True" HeadersVisibility="Column"
-                      AutoGenerateColumns="False" HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black" FontWeight="Bold">
+        <Label Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3" Content="Your order" HorizontalContentAlignment="Center"/>
+        <DataGrid Grid.Column="4" Grid.Row="5" Grid.RowSpan="9" Name="DataGridResults" ItemsSource="{Binding TemporaryCakeList, UpdateSourceTrigger=PropertyChanged}"
+              Grid.ColumnSpan="2" IsReadOnly="True" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" HeadersVisibility="Column" AutoGenerateColumns="False" HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black" FontWeight="Bold">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Cake" Binding="{Binding CakeName}" Width="100"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding CakePrice}" Width="100"/>
-                <DataGridTextColumn Header="Quantity" Binding="{Binding CakeQuantity}" Width="100"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding CakePrice}" Width="70"/>
+                <DataGridTextColumn Header="Quantity" Binding="{Binding CakeQuantity}" Width="70"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Grid.Column="9" Grid.Row="15"  Name="lblTotalPrice" Content="Total Price" Padding="0" HorizontalAlignment="Left"/>
-        <Label Grid.Column="11" Grid.Row="15"   Name="txtTotalPrice" Height="25" Width="100" HorizontalAlignment="Left"
+        <Label Grid.Column="8" Grid.Row="3" Grid.ColumnSpan="3" Content="Your previous order" HorizontalContentAlignment="Center"/>
+        <DataGrid Grid.Column="8" Grid.Row="5" Grid.RowSpan="19" Height="345" Width="500" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible"  Name="DataGridPreviosOrders" ItemsSource="{Binding OrderListForTable, UpdateSourceTrigger=PropertyChanged}"
+              Grid.ColumnSpan="5" IsReadOnly="True" HeadersVisibility="Column" AutoGenerateColumns="False" HorizontalGridLinesBrush="Black" BorderBrush="Black" Foreground="Black" FontWeight="Bold">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" Width="70"/>
+                <DataGridTextColumn Header="Total price" Binding="{Binding TotalPrice}" Width="70"/>
+                <DataGridTextColumn Header="Cake number" Binding="{Binding NumberOfcaker}" Width="70"/>
+                <DataGridTemplateColumn Header="List of cake" Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ListOfCake}" ToolTip="{Binding ListOfCake}" TextWrapping="Wrap"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Comment" Binding="{Binding Comment}" Width="70"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Grid.Column="5" Grid.Row="15"  Name="lblTotalPrice" Content="Total Price" Padding="0" HorizontalAlignment="Right"/>
+        <Label Grid.Column="5" Grid.Row="16"   Name="txtTotalPrice" Height="25" Width="100" HorizontalAlignment="Right"
                  Content="{Binding TotalPrice}"/>
-        <Button Grid.Column="9" Grid.Row="18" Grid.ColumnSpan="3" Name="btnSaveOrder" Content="Submit order" IsEnabled="true" Height="20" 
-                Width="200" HorizontalAlignment="Center" Command="{Binding SaveOrder, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Grid.Column="5" Grid.Row="19"  Name="btnSaveOrder" Content="Submit order" IsEnabled="true" Height="20" 
+                Width="100" HorizontalAlignment="Center" Command="{Binding SaveOrder, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

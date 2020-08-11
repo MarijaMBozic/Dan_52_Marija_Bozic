@@ -1,9 +1,9 @@
 Use PastryShop
 
+drop table if exists ListOfCakeInOrder 
+drop table if exists Orders
 drop table if exists Customer
 drop table if exists Cake
-drop table if exists Orders
-drop table if exists ListOfCakeInOrder 
 
 create table Customer (
    CustomerId       int            identity (1,1) primary key,   
@@ -28,8 +28,9 @@ create table Orders (
 	Date             date                   not null,
 	TotalPrice       float                  not null,
     NumberOfCakes    int                    not null,
-	CustomerId           int                    not null,
-    FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId)	
+	CustomerId           int                not null,
+    FOREIGN KEY (CustomerId) REFERENCES Customer(CustomerId), 
+	Comment          nvarchar(100)          null 	
 )
 
 create table ListOfCakeInOrder (

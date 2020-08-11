@@ -112,6 +112,7 @@ warning 6002: The table/view 'PastryShop.dbo.vwOrderDetails' does not have a pri
             <PropertyRef Name="NumberOfCakes" />
             <PropertyRef Name="Expr2" />
             <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="CakeName" />
           </Key>
           <Property Name="ListOfCakeInOrderId" Type="int" Nullable="false" />
           <Property Name="OrderId" Type="int" Nullable="false" />
@@ -122,6 +123,7 @@ warning 6002: The table/view 'PastryShop.dbo.vwOrderDetails' does not have a pri
           <Property Name="NumberOfCakes" Type="int" Nullable="false" />
           <Property Name="Expr2" Type="int" Nullable="false" />
           <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="CakeName" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <Association Name="FK__ListOfCak__CakeI__2D27B809">
           <End Role="Cake" Type="Self.Cake" Multiplicity="1" />
@@ -204,7 +206,8 @@ warning 6002: The table/view 'PastryShop.dbo.vwOrderDetails' does not have a pri
     [vwOrderDetails].[TotalPrice] AS [TotalPrice], 
     [vwOrderDetails].[NumberOfCakes] AS [NumberOfCakes], 
     [vwOrderDetails].[Expr2] AS [Expr2], 
-    [vwOrderDetails].[CustomerId] AS [CustomerId]
+    [vwOrderDetails].[CustomerId] AS [CustomerId], 
+    [vwOrderDetails].[CakeName] AS [CakeName]
     FROM [dbo].[vwOrderDetails] AS [vwOrderDetails]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK__ListOfCak__CakeI__2D27B809" Association="Self.FK__ListOfCak__CakeI__2D27B809">
@@ -330,6 +333,7 @@ warning 6002: The table/view 'PastryShop.dbo.vwOrderDetails' does not have a pri
             <PropertyRef Name="NumberOfCakes" />
             <PropertyRef Name="Expr2" />
             <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="CakeName" />
           </Key>
           <Property Name="ListOfCakeInOrderId" Type="Int32" Nullable="false" />
           <Property Name="OrderId" Type="Int32" Nullable="false" />
@@ -340,6 +344,7 @@ warning 6002: The table/view 'PastryShop.dbo.vwOrderDetails' does not have a pri
           <Property Name="NumberOfCakes" Type="Int32" Nullable="false" />
           <Property Name="Expr2" Type="Int32" Nullable="false" />
           <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="CakeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <Association Name="FK__ListOfCak__CakeI__2D27B809">
           <End Role="Cake" Type="Self.Cake" Multiplicity="1" />
@@ -498,6 +503,7 @@ warning 6002: The table/view 'PastryShop.dbo.vwOrderDetails' does not have a pri
                 <ScalarProperty Name="NumberOfCakes" ColumnName="NumberOfCakes" />
                 <ScalarProperty Name="Expr2" ColumnName="Expr2" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CakeName" ColumnName="CakeName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

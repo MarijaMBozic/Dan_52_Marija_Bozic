@@ -23,5 +23,6 @@ namespace PastryShop
         public int NumberOfCakes { get; set; }
         public int Expr2 { get; set; }
         public int CustomerId { get; set; }
+        public string CakeName { get; set; }
     }
 }

@@ -92,6 +92,72 @@ namespace PastryShop.Service
                 return null;
             }
         }
+        public string GetAllCakeByOrder(int orderId)
+        {
+            List<string> result = new List<string>();
+            try
+            {
+                using (PastryShopEntities1 context = new PastryShopEntities1())
+                {
+                    
+                    List<vwOrderDetail> list = new List<vwOrderDetail>();
+                    list = (from p in context.vwOrderDetails where p.OrderId==orderId select p).ToList();
+                    foreach(vwOrderDetail O in list)
+                    {
+                        result.Add(O.CakeName);
+                    }
+                   return string.Join("\n", result);
+                }                
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return string.Empty;
+            }
+        }
+        public List<vwOrderDetail> GetAllOrders(int custumerId)
+        {
+            try
+            {
+                using (PastryShopEntities1 context = new PastryShopEntities1())
+                {
+                    List<vwOrderDetail> list = new List<vwOrderDetail>();
+                    list = (from p in context.vwOrderDetails where p.CustomerId==custumerId select p).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return null;
+            }
+        }
+        public string GetAllCommentByOrder(int orderId)
+        {
+            List<string> result = new List<string>();
+            try
+            {
+                using (PastryShopEntities1 context = new PastryShopEntities1())
+                {
+                    List<Order> list = new List<Order>();
+                    list = (from p in context.Orders where p.OrderId == orderId select p).ToList();
+                    foreach (Order O in list)
+                    {
+                        string[] stringComment = O.Comment.Split();
+                        foreach (string str in stringComment)
+                        {
+                            result.Add(O.Comment);
+                        }
+                    }
+                    return string.Join("\n", result);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Exeption" + ex.Message.ToString());
+                return string.Empty;
+            }
+        }
 
         public bool CheckUserName(string username)
         {
