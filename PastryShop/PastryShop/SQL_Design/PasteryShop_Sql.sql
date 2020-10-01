@@ -1,3 +1,6 @@
+CREATE DATABASE PastryShop;
+GO
+
 Use PastryShop
 
 drop table if exists ListOfCakeInOrder 
@@ -48,3 +51,32 @@ values('Ljubavno gnezdo', 0, 1000, 1200 ),
 	  ('Dobos', 1, 2500, 3000 ),
 	  ('Bomba', 1, 800, 960 ),
 	  ('Kinder', 1, 1100, 1320 )
+
+go
+
+CREATE VIEW vwCake AS
+	SELECT        CakeId, Name, IsForChildren, PurchasePrice, SellingPrice
+	FROM            dbo.Cake
+
+go
+
+CREATE VIEW vwCustomer AS
+	SELECT        CustomerId, FullName, Address, PhoneNumber, Username, Password, NumberOfOrders
+	FROM            dbo.Customer
+
+go
+
+CREATE VIEW vwOrder AS
+
+	SELECT        OrderId, Date, TotalPrice, NumberOfCakes, CustomerId AS Comment, Comment AS CustomerId
+	FROM            dbo.Orders
+
+go
+
+CREATE VIEW vwOrderDetails AS
+	SELECT        dbo.ListOfCakeInOrder.ListOfCakeInOrderId, dbo.ListOfCakeInOrder.OrderId, dbo.ListOfCakeInOrder.CakeId, dbo.Orders.OrderId AS Expr1, dbo.Orders.Date, dbo.Orders.TotalPrice, dbo.Orders.NumberOfCakes, 
+                         dbo.Cake.CakeId AS Expr2, dbo.Customer.CustomerId, dbo.Cake.Name AS CakeName
+	FROM            dbo.ListOfCakeInOrder INNER JOIN
+                         dbo.Orders ON dbo.ListOfCakeInOrder.OrderId = dbo.Orders.OrderId INNER JOIN
+                         dbo.Cake ON dbo.ListOfCakeInOrder.CakeId = dbo.Cake.CakeId INNER JOIN
+                         dbo.Customer ON dbo.Orders.CustomerId = dbo.Customer.CustomerId
